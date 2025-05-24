@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 import { UserContext } from "../contexts/userContext";
 
 function Profile() {
@@ -12,9 +12,18 @@ function Profile() {
 
     return (
         <>
-            <h1>User profile</h1>
+            <h1>User Profile</h1>
             <p>Username: {profile.username}</p>
             <p>Email: {profile.email}</p>
+
+            <div style={{ marginTop: "1rem" }}>
+                <Link
+                    to="/quiz-history"
+                    className="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+                >
+                    View Quiz History
+                </Link>
+            </div>
         </>
     );
 }

@@ -7,6 +7,8 @@ import Users from "./components/Users";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import QuizPage from "./components/QuizPage";
+import QuizHistory from "./components/QuizHistory";
 
 function App() {
     const [user, setUser] = useState(
@@ -34,6 +36,8 @@ function App() {
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path="/quiz" element={<QuizPage />} />
+                        <Route path="/quiz-history" element={<QuizHistory />} />
                     </Routes>
                 </div>
             </UserContext.Provider>

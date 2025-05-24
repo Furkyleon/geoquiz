@@ -69,6 +69,7 @@ module.exports = {
             });
         }
     },
+
     getLeaderboard: async function (req, res) {
         try {
             const topScores = await QuizAttempt.aggregate([
@@ -83,6 +84,24 @@ module.exports = {
                 },
                 {
                     $limit: 10,
+                },
+                {
+                    $lookup: {
+                        from: "users",
+                        localField: "_id",
+                        foreignField: "_id",
+                        as: "user",
+                    },
+                },
+                {
+                    $unwind: "$user",
+                },
+                {
+                    $project: {
+                        _id: 1,
+                        highestScore: 1,
+                        username: "$user.username",
+                    },
                 },
             ]);
 
