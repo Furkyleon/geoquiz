@@ -1,10 +1,5 @@
 const UserModel = require("../models/userModel.js");
 
-/**
- * userController.js
- *
- * @description :: Server-side logic for managing users.
- */
 module.exports = {
     list: async function (req, res) {
         try {
@@ -85,15 +80,13 @@ module.exports = {
 
     remove: async function (req, res) {
         const id = req.params.id;
-        console.log("🗑️ Deleting user with ID:", id);
 
         try {
             if (!id.match(/^[0-9a-fA-F]{24}$/)) {
                 return res.status(400).json({ message: "Invalid ID format" });
             }
 
-            const result = await UserModel.findByIdAndDelete(id); // ✅ correct method for Mongoose 7+
-            console.log("🔍 Delete result:", result);
+            const result = await UserModel.findByIdAndDelete(id);
 
             if (!result) {
                 return res.status(404).json({ message: "User not found" });
@@ -101,7 +94,6 @@ module.exports = {
 
             return res.status(204).send();
         } catch (err) {
-            console.error("❌ Deletion error:", err);
             return res.status(500).json({
                 message: "Error when deleting the user.",
                 error: err.message,
@@ -110,19 +102,16 @@ module.exports = {
     },
 
     login: function (req, res, next) {
-        console.log("🚀 Login attempt:", req.body); // Add this
         UserModel.authenticate(
             req.body.username,
             req.body.password,
             function (err, user) {
                 if (err || !user) {
-                    console.log("❌ Login failed:", err?.message); // Add this
                     return res.status(401).json({
                         message: "Wrong username or password",
                     });
                 }
 
-                console.log("✅ Login successful for:", user.username); // Add this
                 req.session.userId = user._id;
 
                 return res.json({
@@ -148,5 +137,22 @@ module.exports = {
         } else {
             return res.json({ message: "No session to log out" });
         }
+    },
+    profile: function (req, res, next) {
+        UserModel.findById(req.session.userId).exec(function (error, user) {
+            if (error) {
+                return res
+                    .status(500)
+                    .json({ message: "Internal error", error });
+            }
+            if (!user) {
+                return res.status(400).json({ message: "Not authorized" });
+            }
+            return res.json({
+                id: user._id,
+                username: user.username,
+                email: user.email,
+            });
+        });
     },
 };
