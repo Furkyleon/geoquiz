@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Header from "./components/Header";
 import Users from "./components/Users";
 import Login from "./components/Login";
+import Register from "./components/Register";
 import Profile from "./components/Profile";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/users" element={<Users />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/register" element={<Register />} />
                         <Route path="/profile" element={<Profile />} />
                     </Routes>
                 </div>
