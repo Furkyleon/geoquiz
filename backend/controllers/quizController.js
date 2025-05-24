@@ -69,4 +69,29 @@ module.exports = {
             });
         }
     },
+    getLeaderboard: async function (req, res) {
+        try {
+            const topScores = await QuizAttempt.aggregate([
+                {
+                    $group: {
+                        _id: "$userId",
+                        highestScore: { $max: "$totalScore" },
+                    },
+                },
+                {
+                    $sort: { highestScore: -1 },
+                },
+                {
+                    $limit: 10,
+                },
+            ]);
+
+            res.json(topScores);
+        } catch (err) {
+            res.status(500).json({
+                message: "Failed to fetch leaderboard",
+                error: err.message,
+            });
+        }
+    },
 };

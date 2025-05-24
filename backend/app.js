@@ -1,16 +1,21 @@
+require("dotenv").config();
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
+// routers
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/userRoutes");
-const quizRoutes = require('./routes/quizRoutes');
+const quizRoutes = require("./routes/quizRoutes");
+const authRoutes = require("./routes/authRoutes");
 
-
+// requires
 require("./db"); // Database connection
 const session = require("./session"); // Session setup
+const passport = require("passport"); // Passport setup
+require("./config/passport");
 
 var app = express();
 
@@ -23,14 +28,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-
-// ✅ Enable sessions
-app.use(session); // <-- this line enables req.session
+app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use('/quiz', quizRoutes);
+app.use("/quiz", quizRoutes);
+app.use("/auth", authRoutes);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
