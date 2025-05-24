@@ -138,7 +138,7 @@ module.exports = {
             return res.json({ message: "No session to log out" });
         }
     },
-    
+
     profile: function (req, res, next) {
         UserModel.findById(req.session.userId).exec(function (error, user) {
             if (error) {
