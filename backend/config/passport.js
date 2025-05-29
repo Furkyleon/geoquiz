@@ -9,18 +9,28 @@ passport.use(
             clientID: process.env.GITHUB_CLIENT_ID,
             clientSecret: process.env.GITHUB_CLIENT_SECRET,
             callbackURL: "/auth/github/callback",
+            scope: ["user:email"],
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
+                // Get the primary verified email if available
+                const email =
+                    profile.emails?.find((e) => e.primary && e.verified)
+                        ?.value || profile.emails?.[0]?.value;
+
                 let user = await User.findOne({ githubId: profile.id });
                 if (!user) {
                     user = await User.create({
                         githubId: profile.id,
                         username: profile.username,
-                        email: profile.emails?.[0]?.value || null,
-                        avatar: profile.photos?.[0]?.value || null,
+                        email, // store the GitHub email
                     });
+                } else if (!user.email && email) {
+                    // backfill email if missing
+                    user.email = email;
+                    await user.save();
                 }
+
                 done(null, user);
             } catch (err) {
                 done(err);

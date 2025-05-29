@@ -3,21 +3,18 @@ const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-    username: String,
-    email: String,
-    password: String,
+    username: { type: String, required: true },
+    email: { type: String, unique: true, required: true },
+    password: { type: String },
     githubId: { type: String, unique: true, sparse: true },
-    avatar: String,
 });
 
 // Password hashing middleware
 userSchema.pre("save", function (next) {
-    const user = this;
-    if (!user.isModified("password")) return next();
-
-    bcrypt.hash(user.password, 10, function (err, hash) {
+    if (!this.isModified("password")) return next();
+    bcrypt.hash(this.password, 10, (err, hash) => {
         if (err) return next(err);
-        user.password = hash;
+        this.password = hash;
         next();
     });
 });
@@ -30,23 +27,18 @@ userSchema.statics.authenticate = async function (
 ) {
     try {
         const user = await this.findOne({ username });
-
         if (!user) {
             const err = new Error("User not found.");
             err.status = 401;
             return callback(err);
         }
-
-        const result = await bcrypt.compare(password, user.password);
-        if (result === true) {
-            return callback(null, user);
-        } else {
-            return callback(new Error("Incorrect password"));
-        }
+        const match = await bcrypt.compare(password, user.password);
+        if (match) return callback(null, user);
+        else return callback(new Error("Incorrect password"));
     } catch (err) {
         return callback(err);
     }
 };
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;

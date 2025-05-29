@@ -3,25 +3,33 @@ import { UserContext } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
 
 function QuizHistory() {
-    const { user } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
     const [history, setHistory] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user || !user.id) {
+        if (!user || !token) {
             navigate("/login");
             return;
         }
 
         fetch(`http://localhost:3001/quiz/history/${user.id}`, {
-            credentials: "include",
+            headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())
-            .then(setHistory)
+            .then((data) => {
+                if (Array.isArray(data)) {
+                    setHistory(data);
+                } else {
+                    console.error("Unexpected history payload:", data);
+                    setHistory([]);
+                }
+            })
             .catch((err) => {
                 console.error("Failed to fetch quiz history", err);
+                setHistory([]);
             });
-    }, [user, navigate]);
+    }, [user, token, navigate]);
 
     if (!user) return null;
 

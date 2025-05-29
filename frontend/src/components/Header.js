@@ -3,28 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/userContext";
 
 function Header({ title }) {
-    const { user, setUserContext } = useContext(UserContext);
+    const { user, clearUser } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const handleLogout = async () => {
-        try {
-            await fetch("http://localhost:3001/users/logout", {
-                method: "POST",
-                credentials: "include",
-            });
-
-            setUserContext(null);
-            navigate("/");
-        } catch (err) {
-            console.error("Logout failed", err);
-        }
+    const handleLogout = () => {
+        // Just clear the token & user on the client
+        clearUser();
+        navigate("/");
     };
 
     const goTo = (path) => () => navigate(path);
 
     return (
-        <div>
-            <h1>{title}</h1>
+        <div className="p-4 bg-white shadow">
+            <h1 className="text-2xl font-bold">{title}</h1>
             <ul className="flex gap-4 mt-4">
                 <li>
                     <button

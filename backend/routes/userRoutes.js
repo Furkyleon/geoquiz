@@ -1,14 +1,18 @@
-var express = require("express");
-var router = express.Router();
-var userController = require("../controllers/userController.js");
+const express = require("express");
+const router = express.Router();
+const auth = require("../middleware/auth");
+const userController = require("../controllers/userController");
 
-router.get("/", userController.list);
-router.get("/:id", userController.show);
-router.post("/", userController.create);
-router.put("/:id", userController.update);
-router.delete("/:id", userController.remove);
+// Public endpoints
+router.post("/register", userController.create);
+router.post("/login", userController.login);
 
-router.post('/login', userController.login);
-router.post('/logout', userController.logout);
+// Protected user routes
+router.get("/profile", auth, userController.profile);
+router.get("/", auth, userController.list);
+router.get("/:id", auth, userController.show);
+router.put("/:id", auth, userController.update);
+router.delete("/:id", auth, userController.remove);
+router.post("/logout", auth, userController.logout);
 
 module.exports = router;

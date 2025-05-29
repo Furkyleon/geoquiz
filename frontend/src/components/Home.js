@@ -8,9 +8,7 @@ function Home() {
     const [leaderboard, setLeaderboard] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:3001/quiz/leaderboard", {
-            credentials: "include",
-        })
+        fetch("http://localhost:3001/quiz/leaderboard")
             .then((res) => res.json())
             .then(setLeaderboard)
             .catch((err) => console.error("Failed to fetch leaderboard", err));

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/userContext";
 
 export default function QuizPage() {
-    const { user } = useContext(UserContext);
+    const { user, token } = useContext(UserContext);
     const [questions, setQuestions] = useState([]);
     const [current, setCurrent] = useState(0);
     const [answers, setAnswers] = useState([]);
@@ -19,9 +19,7 @@ export default function QuizPage() {
     }, []);
 
     useEffect(() => {
-        if (quizComplete) {
-            submitQuiz();
-        }
+        if (quizComplete) submitQuiz();
     }, [quizComplete]);
 
     const handleAnswer = (option) => {
@@ -49,7 +47,7 @@ export default function QuizPage() {
     };
 
     const submitQuiz = async () => {
-        if (!user || !user.id) {
+        if (!user || !token) {
             alert("User not logged in.");
             navigate("/login");
             return;
@@ -58,11 +56,12 @@ export default function QuizPage() {
         try {
             const res = await fetch("http://localhost:3001/quiz/submit", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                credentials: "include",
-                body: JSON.stringify({ userId: user.id, responses: answers }),
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ responses: answers }),
             });
-
             const data = await res.json();
             alert(`Quiz submitted! Score: ${Math.round(data.totalScore)}`);
             navigate("/quiz-history");
@@ -81,7 +80,10 @@ export default function QuizPage() {
             <h2 className="text-xl font-bold mb-4">
                 Question {current + 1} of {questions.length}
             </h2>
-            <p className="mb-4">{q.question}</p>
+            <p
+                className="mb-4"
+                dangerouslySetInnerHTML={{ __html: q.question }}
+            />
             <div className="space-y-2">
                 {options.map((opt) => (
                     <button

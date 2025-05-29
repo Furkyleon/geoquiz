@@ -15,7 +15,7 @@ export default function RegisterPage() {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://localhost:3001/users/",
+                "http://localhost:3001/users/register",
                 form
             );
             if (response.status === 201) {

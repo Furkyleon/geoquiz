@@ -3,10 +3,9 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const quizController = require("../controllers/quizController");
 
-router.get("/", auth, quizController.list);
 router.get("/start", quizController.startQuiz);
-router.post("/submit", quizController.submitQuiz);
-router.get("/history/:userId", quizController.getUserHistory);
+router.post("/submit", auth, quizController.submitQuiz);
+router.get("/history/:userId", auth, quizController.getUserHistory);
 router.get("/leaderboard", quizController.getLeaderboard);
 
 module.exports = router;
