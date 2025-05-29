@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
-import { UserContext } from "../contexts/userContext";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../contexts/userContext";
 
-function QuizHistory() {
+export default function QuizHistory() {
     const { user, token } = useContext(UserContext);
     const [history, setHistory] = useState([]);
     const navigate = useNavigate();
@@ -12,21 +12,15 @@ function QuizHistory() {
             navigate("/login");
             return;
         }
-
         fetch(`http://localhost:3001/quiz/history/${user.id}`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())
-            .then((data) => {
-                if (Array.isArray(data)) {
-                    setHistory(data);
-                } else {
-                    console.error("Unexpected history payload:", data);
-                    setHistory([]);
-                }
-            })
+            .then((data) =>
+                Array.isArray(data) ? setHistory(data) : setHistory([])
+            )
             .catch((err) => {
-                console.error("Failed to fetch quiz history", err);
+                console.error("Failed to fetch history", err);
                 setHistory([]);
             });
     }, [user, token, navigate]);
@@ -34,35 +28,34 @@ function QuizHistory() {
     if (!user) return null;
 
     return (
-        <div className="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
-            <h2 className="text-2xl font-bold mb-6">Your Quiz History</h2>
-            {history.length === 0 ? (
-                <p>No quiz attempts yet.</p>
-            ) : (
-                <ul className="space-y-4">
-                    {history.map((attempt, index) => (
-                        <li
-                            key={index}
-                            className="p-4 border rounded-xl shadow-sm bg-gray-50"
+        <div className="container">
+            <div className="card">
+                <h2 className="heading">Your Quiz History</h2>
+                {history.length === 0 ? (
+                    <p>No quiz attempts yet.</p>
+                ) : (
+                    history.map((attempt, idx) => (
+                        <div
+                            key={idx}
+                            className="card"
+                            style={{ marginTop: "1rem" }}
                         >
-                            <div>
+                            <p>
                                 <strong>Date:</strong>{" "}
                                 {new Date(attempt.date).toLocaleString()}
-                            </div>
-                            <div>
+                            </p>
+                            <p>
                                 <strong>Score:</strong>{" "}
                                 {Math.round(attempt.totalScore)}
-                            </div>
-                            <div>
+                            </p>
+                            <p>
                                 <strong>Questions:</strong>{" "}
                                 {attempt.questions.length}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            )}
+                            </p>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 }
-
-export default QuizHistory;

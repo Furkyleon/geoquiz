@@ -7,9 +7,8 @@ export default function RegisterPage() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const handleChange = (e) => {
+    const handleChange = (e) =>
         setForm({ ...form, [e.target.name]: e.target.value });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -19,7 +18,7 @@ export default function RegisterPage() {
                 form
             );
             if (response.status === 201) {
-                navigate("/login"); // Redirect to login page after successful registration
+                navigate("/login");
             }
         } catch (err) {
             setError(err.response?.data?.message || "Registration failed");
@@ -27,53 +26,44 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md">
-            <h2 className="text-2xl font-bold mb-6">Register</h2>
-            {error && <div className="mb-4 text-red-500">{error}</div>}
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <label className="block text-sm font-medium mb-1">
-                        Username
-                    </label>
+        <div className="container card">
+            <h2 className="heading text-center">Register</h2>
+            {error && <div className="error text-center">{error}</div>}
+            <form onSubmit={handleSubmit} className="form">
+                <div className="form__group">
+                    <label className="form__label">Username</label>
                     <input
                         type="text"
                         name="username"
                         value={form.username}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-xl"
+                        className="form__input"
                         required
                     />
                 </div>
-                <div>
-                    <label className="block text-sm font-medium mb-1">
-                        Email
-                    </label>
+                <div className="form__group">
+                    <label className="form__label">Email</label>
                     <input
                         type="email"
                         name="email"
                         value={form.email}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-xl"
+                        className="form__input"
                         required
                     />
                 </div>
-                <div>
-                    <label className="block text-sm font-medium mb-1">
-                        Password
-                    </label>
+                <div className="form__group">
+                    <label className="form__label">Password</label>
                     <input
                         type="password"
                         name="password"
                         value={form.password}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border rounded-xl"
+                        className="form__input"
                         required
                     />
                 </div>
-                <button
-                    type="submit"
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-xl hover:bg-blue-700"
-                >
+                <button type="submit" className="button button--primary">
                     Register
                 </button>
             </form>

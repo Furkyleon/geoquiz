@@ -9,24 +9,20 @@ export default function AuthSuccess() {
     const { search } = useLocation();
 
     useEffect(() => {
-        // Only run once on mount
         const params = new URLSearchParams(search);
         const token = params.get("token");
 
         if (token) {
-            // decode user info out of it
             const { id, username, email } = jwtDecode(token);
             setUserContext({
                 user: { id, username, email },
                 token,
             });
-            // replace history so coming back doesn’t re-trigger this
             navigate("/", { replace: true });
         } else {
             navigate("/login", { replace: true });
         }
-        // empty deps = only on first mount
-    }, []); // ← no setUserContext or navigate here
+    }, []);
 
     return <p>Logging you in…</p>;
 }

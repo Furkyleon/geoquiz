@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { UserContext } from "./contexts/userContext";
 import Home from "./components/Home";
 import Header from "./components/Header";
-import Users from "./components/Users";
 import Login from "./components/Login";
 import AuthSuccess from "./components/AuthSuccess";
 import Register from "./components/Register";
@@ -40,7 +39,6 @@ function App() {
                     <Header title="Quiz App" />
                     <Routes>
                         <Route path="/" element={<Home />} />
-                        <Route path="/users" element={<Users />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/auth/success" element={<AuthSuccess />} />

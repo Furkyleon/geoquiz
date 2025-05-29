@@ -38,21 +38,16 @@ export default function QuizPage() {
         ]);
 
         setStartTime(Date.now());
-
-        if (current + 1 < questions.length) {
-            setCurrent(current + 1);
-        } else {
-            setQuizComplete(true);
-        }
+        if (current + 1 < questions.length) setCurrent(current + 1);
+        else setQuizComplete(true);
     };
 
     const submitQuiz = async () => {
         if (!user || !token) {
-            alert("User not logged in.");
+            alert("Please log in to submit your quiz.");
             navigate("/login");
             return;
         }
-
         try {
             const res = await fetch("http://localhost:3001/quiz/submit", {
                 method: "POST",
@@ -70,26 +65,32 @@ export default function QuizPage() {
         }
     };
 
-    if (!questions.length) return <p>Loading questions...</p>;
+    if (!questions.length)
+        return (
+            <div className="container text-center">
+                <p>Loading questions...</p>
+            </div>
+        );
 
     const q = questions[current];
     const options = [...q.incorrect_answers, q.correct_answer].sort();
 
     return (
-        <div className="max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow">
-            <h2 className="text-xl font-bold mb-4">
+        <div className="container card">
+            <h2 className="heading">
                 Question {current + 1} of {questions.length}
             </h2>
             <p
                 className="mb-4"
                 dangerouslySetInnerHTML={{ __html: q.question }}
             />
-            <div className="space-y-2">
+            <div className="form">
                 {options.map((opt) => (
                     <button
                         key={opt}
                         onClick={() => handleAnswer(opt)}
-                        className="block w-full text-left bg-gray-100 hover:bg-blue-100 px-4 py-2 rounded"
+                        className="button button--primary"
+                        style={{ width: "100%" }}
                     >
                         {opt}
                     </button>
