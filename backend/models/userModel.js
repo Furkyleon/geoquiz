@@ -6,6 +6,8 @@ const userSchema = new Schema({
     username: String,
     email: String,
     password: String,
+    githubId: { type: String, unique: true, sparse: true },
+    avatar: String,
 });
 
 // Password hashing middleware

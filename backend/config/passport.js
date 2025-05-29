@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/userModel");
+require("dotenv").config();
 
 passport.use(
     new GitHubStrategy(
@@ -14,23 +15,16 @@ passport.use(
                 let user = await User.findOne({ githubId: profile.id });
                 if (!user) {
                     user = await User.create({
-                        username: profile.username,
                         githubId: profile.id,
-                        email:
-                            profile.emails && profile.emails[0]
-                                ? profile.emails[0].value
-                                : null,
+                        username: profile.username,
+                        email: profile.emails?.[0]?.value || null,
+                        avatar: profile.photos?.[0]?.value || null,
                     });
                 }
-                return done(null, user);
+                done(null, user);
             } catch (err) {
-                return done(err);
+                done(err);
             }
         }
     )
-);
-
-passport.serializeUser((user, done) => done(null, user.id));
-passport.deserializeUser((id, done) =>
-    User.findById(id).then((user) => done(null, user))
 );

@@ -19,7 +19,8 @@
     "hbs": "^4.2.0",
     "he": "^1.2.0",
     "http-errors": "~1.6.3",
-    "mongoose": "^8.15.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.15.1",
     "morgan": "~1.9.1",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12"

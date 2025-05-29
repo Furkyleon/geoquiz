@@ -1,4 +1,6 @@
 const UserModel = require("../models/userModel.js");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 module.exports = {
     list: async function (req, res) {
@@ -101,21 +103,28 @@ module.exports = {
         }
     },
 
-    login: function (req, res, next) {
+    login: function (req, res) {
         UserModel.authenticate(
             req.body.username,
             req.body.password,
-            function (err, user) {
+            (err, user) => {
                 if (err || !user) {
-                    return res.status(401).json({
-                        message: "Wrong username or password",
-                    });
+                    return res
+                        .status(401)
+                        .json({ message: "Wrong username or password" });
                 }
-
-                req.session.userId = user._id;
-
+                const token = jwt.sign(
+                    {
+                        id: user._id,
+                        username: user.username,
+                        email: user.email,
+                    },
+                    process.env.JWT_SECRET,
+                    { expiresIn: "1d" }
+                );
                 return res.json({
                     message: "Login successful",
+                    token,
                     user: {
                         id: user._id,
                         username: user.username,
@@ -127,33 +136,19 @@ module.exports = {
     },
 
     logout: function (req, res) {
-        if (req.session) {
-            req.session.destroy((err) => {
-                if (err) {
-                    return res.status(500).json({ message: "Logout failed" });
-                }
-                return res.json({ message: "Logout successful" });
-            });
-        } else {
-            return res.json({ message: "No session to log out" });
-        }
+        return res.json({
+            message: "Logout successful (client should discard the token)",
+        });
     },
 
-    profile: function (req, res, next) {
-        UserModel.findById(req.session.userId).exec(function (error, user) {
-            if (error) {
-                return res
-                    .status(500)
-                    .json({ message: "Internal error", error });
-            }
-            if (!user) {
-                return res.status(400).json({ message: "Not authorized" });
-            }
-            return res.json({
-                id: user._id,
-                username: user.username,
-                email: user.email,
-            });
+    profile: function (req, res) {
+        if (!req.user) {
+            return res.status(401).json({ message: "Not authorized" });
+        }
+        return res.json({
+            id: req.user.id,
+            username: req.user.username,
+            email: req.user.email,
         });
     },
 };

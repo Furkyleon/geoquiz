@@ -17,8 +17,9 @@ module.exports = {
     },
 
     submitQuiz: async function (req, res) {
-        const { userId, responses } = req.body;
         try {
+            const userId = req.user.id;
+            const { responses } = req.body;
             let totalScore = 0;
             const detailedResults = responses.map((q) => {
                 const grade = q.correct ? 1 : 0;
@@ -41,7 +42,6 @@ module.exports = {
                 questions: detailedResults,
                 totalScore,
             });
-
             await attempt.save();
             res.status(201).json({
                 message: "Quiz submitted successfully",
@@ -56,8 +56,8 @@ module.exports = {
     },
 
     getUserHistory: async function (req, res) {
-        const userId = req.params.userId;
         try {
+            const userId = req.user.id;
             const history = await QuizAttempt.find({ userId }).populate(
                 "questions.questionId"
             );
@@ -69,7 +69,7 @@ module.exports = {
             });
         }
     },
-
+    
     getLeaderboard: async function (req, res) {
         try {
             const topScores = await QuizAttempt.aggregate([

@@ -5,18 +5,17 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
+const passport = require("passport");
+
+// DB & Passport config
+require("./db");
+require("./config/passport");
 
 // routers
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/userRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const authRoutes = require("./routes/authRoutes");
-
-// requires
-require("./db"); // Database connection
-const session = require("./session"); // Session setup
-const passport = require("passport"); // Passport setup
-require("./config/passport");
 
 var app = express();
 
@@ -29,26 +28,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session);
-app.use(passport.initialize());
-app.use(passport.session());
 
-var allowedOrigins = ["http://localhost:3000", "http://localhost:3001"];
+// CORS → only your React app
 app.use(
     cors({
+        origin: process.env.FRONTEND_URL,
         credentials: true,
-        origin: function (origin, callback) {
-            // Allow requests with no origin (mobile apps, curl)
-            if (!origin) return callback(null, true);
-            if (allowedOrigins.indexOf(origin) === -1) {
-                var msg =
-                    "The CORS policy does not allow access from the specified Origin.";
-                return callback(new Error(msg), false);
-            }
-            return callback(null, true);
-        },
     })
 );
+
+// Passport (no sessions)
+app.use(passport.initialize());
 
 // Routes
 app.use("/", indexRouter);
