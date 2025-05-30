@@ -7,21 +7,16 @@ var logger = require("morgan");
 var cors = require("cors");
 const passport = require("passport");
 
-// DB & Passport config
+// database & passport config
 require("./db");
 require("./config/passport");
 
 // routers
-var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/userRoutes");
 const quizRoutes = require("./routes/quizRoutes");
 const authRoutes = require("./routes/authRoutes");
 
 var app = express();
-
-// view engine setup
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "hbs");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -37,11 +32,10 @@ app.use(
     })
 );
 
-// Passport (no sessions)
+// passport
 app.use(passport.initialize());
 
-// Routes
-app.use("/", indexRouter);
+// routes
 app.use("/users", usersRouter);
 app.use("/quiz", quizRoutes);
 app.use("/auth", authRoutes);
@@ -53,7 +47,6 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get("env") === "development" ? err : {};
 

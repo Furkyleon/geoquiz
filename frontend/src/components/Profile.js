@@ -10,7 +10,7 @@ export default function Profile() {
     if (!user) return <Navigate replace to="/login" />;
 
     const handleDelete = async () => {
-        if (!window.confirm("Are you sure you want to delete your account?"))
+        if (!window.confirm("Are you sure to delete your account?"))
             return;
         try {
             const res = await fetch(

@@ -21,6 +21,23 @@ body {
     color: var(--color-text);
 }
 
+/*
+.App {
+    padding-top: 4rem;
+    min-height: 100vh;
+    
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 152, 152, 0.8),
+        rgba(255, 121, 121, 0.753)
+    );
+}
+*/
+
+.App {
+    padding-top: 4rem;
+}
+
 .container {
     max-width: 800px;
     margin: 2rem auto;
@@ -41,12 +58,23 @@ body {
     max-width: 500px;
 }
 
+.container.quiz-history {
+    max-width: 500px;
+    margin: 2rem auto;
+    padding: 1rem;
+}
+
 .container.profile p {
     margin-bottom: 5px;
 }
 
 .container.quiz-page p {
     margin-bottom: 20px;
+}
+
+.container.quiz-history h2 {
+    margin-top: -5px;
+    text-align: center;
 }
 
 .container.quiz-history p.no-quiz {
@@ -68,7 +96,7 @@ body {
 .card {
     background: var(--color-card-bg);
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
     padding: 2rem;
 }
 
@@ -84,6 +112,7 @@ body {
     font-size: 2rem;
     font-weight: 700;
     margin-bottom: 1rem;
+    margin-top: 10px;
 }
 
 .header {
@@ -95,10 +124,6 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
-}
-
-.App {
-    padding-top: 4rem;
 }
 
 .header_title {
@@ -161,14 +186,24 @@ body {
 .button-primary.register {
     margin-top: 15px;
 }
+
 .button-primary.login {
     margin-top: 20px;
 }
 
-.btn-header {
+.button-primary.start-quiz {
+    margin-top: 15px;
+}
+
+.btn.btn-header {
     background-color: var(--color-primary);
     margin-right: 10px;
     margin-left: -5px;
+}
+
+.btn.btn-header:hover {
+    transform: scale(1.05);
+    transition: transform var(0.5s) ease;
 }
 
 .button-primary.answer {

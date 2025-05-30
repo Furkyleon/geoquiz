@@ -5,13 +5,11 @@ require("dotenv").config();
 
 const router = express.Router();
 
-// 1) Redirect to GitHub for authentication
 router.get(
     "/github",
     passport.authenticate("github", { scope: ["user:email"], session: false })
 );
 
-// 2) GitHub callback: issue a JWT and redirect
 router.get(
     "/github/callback",
     passport.authenticate("github", {

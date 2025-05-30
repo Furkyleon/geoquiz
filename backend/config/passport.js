@@ -13,7 +13,6 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, done) => {
             try {
-                // Get the primary verified email if available
                 const email =
                     profile.emails?.find((e) => e.primary && e.verified)
                         ?.value || profile.emails?.[0]?.value;
@@ -23,10 +22,9 @@ passport.use(
                     user = await User.create({
                         githubId: profile.id,
                         username: profile.username,
-                        email, // store the GitHub email
+                        email,
                     });
                 } else if (!user.email && email) {
-                    // backfill email if missing
                     user.email = email;
                     await user.save();
                 }

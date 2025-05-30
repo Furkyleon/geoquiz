@@ -23,18 +23,14 @@ export default function Home() {
     };
 
     return (
-        <div className="container text-center">
+        <div className="container text-center home-page">
             <h1 className="heading">
                 {user
-                    ? `Welcome to Quiz App, ${user.username}!`
-                    : "Welcome to Quiz App"}
+                    ? `Welcome to GeoQuiz, ${user.username}!`
+                    : "Welcome to GeoQuiz!"}
             </h1>
-            <p>Test your knowledge by starting a quiz!</p>
-            <button
-                onClick={handleStartQuiz}
-                className="button button-primary"
-                style={{ marginTop: "1rem" }}
-            >
+            <p>Test your geography knowledge with 10 questions!</p>
+            <button onClick={handleStartQuiz} className="button button-primary start-quiz">
                 Start Quiz
             </button>
 

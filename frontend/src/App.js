@@ -36,7 +36,7 @@ function App() {
                 value={{ user, token, setUserContext, clearUser }}
             >
                 <div className="App">
-                    <Header title="Quiz App" />
+                    <Header title="GeoQuiz" />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/login" element={<Login />} />

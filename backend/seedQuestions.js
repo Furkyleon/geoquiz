@@ -1,11 +1,9 @@
-// seedQuestions.js
 const mongoose = require("mongoose");
 const axios = require("axios");
 const he = require("he");
 const Question = require("./models/questionModel");
 const { mongoDB } = require("./db");
 
-// Connect to MongoDB
 mongoose
     .connect(mongoDB, {
         useNewUrlParser: true,
@@ -18,7 +16,6 @@ mongoose
         console.error("MongoDB connection error:", err);
     });
 
-// Fetch and save questions
 async function fetchAndSaveQuestions() {
     try {
         const response = await axios.get(

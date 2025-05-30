@@ -11,6 +11,10 @@
             "src": "quiz-icon.png",
             "sizes": "512x512",
             "type": "image/png"
+        },
+        {
+            "src": "quiz-background.png",
+            "type": "image/jpg"
         }
     ],
     "start_url": ".",
