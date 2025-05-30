@@ -76,10 +76,8 @@ export default function QuizPage() {
     const options = [...q.incorrect_answers, q.correct_answer].sort();
 
     return (
-        <div className="container card">
-            <h2 className="heading">
-                Question {current + 1} of {questions.length}
-            </h2>
+        <div className="container card quiz-page text-center">
+            <h2 className="heading">Question {current + 1}</h2>
             <p
                 className="mb-4"
                 dangerouslySetInnerHTML={{ __html: q.question }}
@@ -89,8 +87,7 @@ export default function QuizPage() {
                     <button
                         key={opt}
                         onClick={() => handleAnswer(opt)}
-                        className="button button--primary"
-                        style={{ width: "100%" }}
+                        className="button button-primary answer"
                     >
                         {opt}
                     </button>

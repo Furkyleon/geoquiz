@@ -34,40 +34,40 @@ export default function Login() {
     if (user) return <Navigate replace to="/" />;
 
     return (
-        <div className="container card">
+        <div className="container card login-page">
             <h2 className="heading text-center">Login</h2>
             <form onSubmit={handleLogin} className="form">
-                <div className="form__group">
+                <div className="form_group">
                     <input
                         type="text"
                         placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        className="form__input"
+                        className="form_input"
                         required
                     />
                 </div>
-                <div className="form__group">
+                <div className="form_group">
                     <input
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="form__input"
+                        className="form_input"
                         required
                     />
                 </div>
-                <button type="submit" className="button button--primary">
-                    Log in
-                </button>
                 {error && <div className="error text-center">{error}</div>}
+                <button type="submit" className="button button-primary login">
+                    Login
+                </button>
             </form>
             <div className="text-center" style={{ marginTop: "1rem" }}>
                 <a
                     href="http://localhost:3001/auth/github"
-                    className="button button--secondary"
+                    className="button button-github"
                 >
-                    Log in with GitHub
+                    Login with GitHub
                 </a>
             </div>
         </div>

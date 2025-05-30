@@ -1,4 +1,5 @@
 const UserModel = require("../models/userModel.js");
+const QuizAttempt = require("../models/quizModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
@@ -88,12 +89,16 @@ module.exports = {
                 return res.status(400).json({ message: "Invalid ID format" });
             }
 
-            const result = await UserModel.findByIdAndDelete(id);
-
-            if (!result) {
+            // 1) Delete the user
+            const user = await UserModel.findByIdAndDelete(id);
+            if (!user) {
                 return res.status(404).json({ message: "User not found" });
             }
 
+            // 2) Delete all of their quiz attempts
+            await QuizAttempt.deleteMany({ userId: id });
+
+            // 3) All done
             return res.status(204).send();
         } catch (err) {
             return res.status(500).json({

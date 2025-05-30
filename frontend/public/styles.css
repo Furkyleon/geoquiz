@@ -1,8 +1,7 @@
 :root {
     --color-primary: #e53e3e;
     --color-primary-dark: #c53030;
-    --color-secondary: #3182ce;
-    --color-secondary-dark: #2b6cb0;
+    --color-primary-light: #e06868;
     --color-light: #f7fafc;
     --color-card-bg: #ffffff;
     --color-text: #2d3748;
@@ -28,6 +27,44 @@ body {
     padding: 1rem;
 }
 
+.container.profile {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.container.quiz-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    flex-direction: column;
+    max-width: 500px;
+}
+
+.container.profile p {
+    margin-bottom: 5px;
+}
+
+.container.quiz-page p {
+    margin-bottom: 20px;
+}
+
+.container.quiz-history p.no-quiz {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.container.register-page,
+.container.login-page {
+    max-width: 400px;
+    margin: 2rem auto;
+}
+
+.container.register-page h2,
+.container.login-page h2 {
+    margin-bottom: 25px;
+}
+
 .card {
     background: var(--color-card-bg);
     border-radius: var(--border-radius);
@@ -39,6 +76,10 @@ body {
     text-align: center;
 }
 
+.text-center p {
+    margin-bottom: 10px;
+}
+
 .heading {
     font-size: 2rem;
     font-weight: 700;
@@ -47,15 +88,24 @@ body {
 
 .header {
     background-color: var(--color-primary-dark);
-    padding: 1rem;
+    padding: 0.25rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.App {
+    padding-top: 4rem;
 }
 
 .header_title {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
     font-weight: 700;
     color: #ffffff;
-    margin: 0;
+    margin-left: 5px;
 }
 
 .nav {
@@ -70,29 +120,23 @@ body {
     margin: 0;
 }
 
-.btn--logout {
-    background-color: #9b2c2c;
-}
-
-.btn--logout:hover {
-    background-color: #822727;
-}
-
 .header_content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header_brand {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .header_logo {
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
+    margin-left: 10px;
+    font-size: 1.6rem;
 }
 
 .button,
@@ -102,33 +146,81 @@ body {
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 600;
-    transition: background-color var(--transition-speed) ease;
+    transition: transform var(--transition-speed) ease;
     color: #fff;
+    margin-bottom: 12px;
 }
 
-.button--primary,
-.btn--primary {
+.button-primary,
+.btn-primary {
     background-color: var(--color-primary);
 }
 
-.button--primary:hover,
-.btn--primary:hover {
-    background-color: var(--color-primary-dark);
+.button-primary.register {
+    margin-top: 15px;
+}
+.button-primary.login {
+    margin-top: 20px;
 }
 
-.button--secondary {
-    background-color: var(--color-secondary);
+.btn-header {
+    background-color: var(--color-primary);
+    margin-right: 10px;
+    margin-left: -5px;
 }
 
-.button--secondary:hover {
-    background-color: var(--color-secondary-dark);
+.button-primary.answer {
+    background-color: var(--color-primary-light);
+}
+
+.button-primary:hover,
+.btn-primary:hover {
+    transform: scale(1.05);
+    transition: transform var(0.5s) ease;
+}
+
+.button-github {
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
+    display: block;
+    width: 100%;
+    max-width: none;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.button-github:hover {
+    background-color: #333;
+    transform: scale(1.03);
+}
+
+.btn-delete {
+    background-color: #000;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color var(--transition-speed) ease,
+        transform var(--transition-speed) ease;
+    display: block;
+    width: 100%;
+    max-width: none;
+    text-align: center;
+    margin-top: -5px;
+}
+
+.btn-delete:hover {
+    background-color: black;
+    transform: scale(1.03);
 }
 
 .error {
     color: var(--color-primary);
-    font-size: 0.875rem;
+    font-size: 1rem;
+    margin-bottom: -15px;
 }
 
 .form {
@@ -136,17 +228,17 @@ body {
     gap: 1rem;
 }
 
-.form__group {
+.form_group {
     display: flex;
     flex-direction: column;
 }
 
-.form__label {
+.form_label {
     margin-bottom: 0.5rem;
     font-weight: 500;
 }
 
-.form__input {
+.form_input {
     padding: 0.75rem 1rem;
     border: 1px solid #cbd5e0;
     border-radius: var(--border-radius);
@@ -160,13 +252,26 @@ body {
     gap: 1rem;
 }
 
-.leaderboard__item {
+.leaderboard_item {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1rem;
     background: var(--color-light);
     border-radius: var(--border-radius);
+    transition: transform var(--transition-speed) ease;
+}
+
+.leaderboard_item.current {
+    background-color: var(--color-primary-light);
+    color: var(--color-light);
+    font-weight: 700;
+    transition: background-color var(--transition-speed) ease;
+    transition: transform var(--transition-speed) ease;
+}
+
+.leaderboard_item:hover {
+    transform: scale(1.02);
 }
 
 .profile {
@@ -174,6 +279,40 @@ body {
     gap: 0.5rem;
 }
 
-.profile__link {
-    margin-top: 1rem;
+.profile_link {
+    text-decoration: none;
+    padding: 0.6rem 1rem;
+    display: inline-block;
+    margin: 1rem auto 0;
+}
+
+.quiz-page .form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.quiz-page .form .button {
+    width: 100%;
+    max-width: 400px;
+    margin: 0.5rem auto;
+}
+
+.header_brand {
+    text-decoration: none;
+    color: inherit;
+}
+
+.header_brand:hover {
+    text-decoration: none;
+}
+
+.container.profile .profile_link,
+.container.profile .btn-delete {
+    display: block;
+    width: 100%;
+    max-width: none;
+    margin: 1rem auto 0;
+    text-align: center;
 }

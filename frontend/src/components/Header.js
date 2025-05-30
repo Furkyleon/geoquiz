@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { UserContext } from "../contexts/userContext";
 
 // Header component with logo and horizontal navigation
@@ -17,20 +17,20 @@ export default function Header({ title }) {
     return (
         <header className="header">
             <div className="header_content">
-                <div className="header_brand">
+                <Link to="/" className="header_brand">
                     <img
                         src="/quiz-icon.png"
                         alt="Quiz App Logo"
                         className="header_logo"
                     />
                     <h1 className="header_title">{title}</h1>
-                </div>
+                </Link>
                 <nav className="nav">
                     <ul className="nav_list">
                         <li>
                             <button
                                 onClick={goTo("/")}
-                                className="btn btn--primary"
+                                className="btn btn-header"
                             >
                                 Home
                             </button>
@@ -40,7 +40,7 @@ export default function Header({ title }) {
                                 <li>
                                     <button
                                         onClick={goTo("/profile")}
-                                        className="btn btn--primary"
+                                        className="btn btn-header"
                                     >
                                         Profile
                                     </button>
@@ -48,7 +48,7 @@ export default function Header({ title }) {
                                 <li>
                                     <button
                                         onClick={handleLogout}
-                                        className="btn btn--logout"
+                                        className="btn btn-header"
                                     >
                                         Logout
                                     </button>
@@ -59,7 +59,7 @@ export default function Header({ title }) {
                                 <li>
                                     <button
                                         onClick={goTo("/login")}
-                                        className="btn btn--primary"
+                                        className="btn btn-header"
                                     >
                                         Login
                                     </button>
@@ -67,7 +67,7 @@ export default function Header({ title }) {
                                 <li>
                                     <button
                                         onClick={goTo("/register")}
-                                        className="btn btn--primary"
+                                        className="btn btn-header"
                                     >
                                         Register
                                     </button>

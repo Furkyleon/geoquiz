@@ -26,44 +26,47 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="container card">
+        <div className="container card register-page">
             <h2 className="heading text-center">Register</h2>
             {error && <div className="error text-center">{error}</div>}
             <form onSubmit={handleSubmit} className="form">
-                <div className="form__group">
-                    <label className="form__label">Username</label>
+                <div className="form_group">
                     <input
                         type="text"
                         name="username"
+                        placeholder="Username"
                         value={form.username}
                         onChange={handleChange}
-                        className="form__input"
+                        className="form_input"
                         required
                     />
                 </div>
-                <div className="form__group">
-                    <label className="form__label">Email</label>
+                <div className="form_group">
                     <input
                         type="email"
                         name="email"
+                        placeholder="Email"
                         value={form.email}
                         onChange={handleChange}
-                        className="form__input"
+                        className="form_input"
                         required
                     />
                 </div>
-                <div className="form__group">
-                    <label className="form__label">Password</label>
+                <div className="form_group">
                     <input
                         type="password"
                         name="password"
+                        placeholder="Password"
                         value={form.password}
                         onChange={handleChange}
-                        className="form__input"
+                        className="form_input"
                         required
                     />
                 </div>
-                <button type="submit" className="button button--primary">
+                <button
+                    type="submit"
+                    className="button button-primary register"
+                >
                     Register
                 </button>
             </form>

@@ -28,11 +28,11 @@ export default function QuizHistory() {
     if (!user) return null;
 
     return (
-        <div className="container">
+        <div className="container quiz-history">
             <div className="card">
-                <h2 className="heading">Your Quiz History</h2>
+                <h2 className="heading text-center">Your Quiz History</h2>
                 {history.length === 0 ? (
-                    <p>No quiz attempts yet.</p>
+                    <p className="no-quiz">No quiz attempts yet.</p>
                 ) : (
                     history.map((attempt, idx) => (
                         <div

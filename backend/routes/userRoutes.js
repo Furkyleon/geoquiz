@@ -12,7 +12,7 @@ router.get("/profile", auth, userController.profile);
 router.get("/", auth, userController.list);
 router.get("/:id", auth, userController.show);
 router.put("/:id", auth, userController.update);
-router.delete("/:id", auth, userController.remove);
+router.delete("/delete/:id", auth, userController.remove);
 router.post("/logout", auth, userController.logout);
 
 module.exports = router;

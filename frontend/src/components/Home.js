@@ -24,30 +24,44 @@ export default function Home() {
 
     return (
         <div className="container text-center">
-            <h1 className="heading">Welcome to the Quiz App</h1>
+            <h1 className="heading">
+                {user
+                    ? `Welcome to Quiz App, ${user.username}!`
+                    : "Welcome to Quiz App"}
+            </h1>
             <p>Test your knowledge by starting a quiz!</p>
             <button
                 onClick={handleStartQuiz}
-                className="button button--primary"
+                className="button button-primary"
                 style={{ marginTop: "1rem" }}
             >
                 Start Quiz
             </button>
+
             <div className="card" style={{ marginTop: "2rem" }}>
                 <h2 className="heading">🏆 Leaderboard</h2>
                 {leaderboard.length === 0 ? (
                     <p>No scores yet.</p>
                 ) : (
                     <ul className="leaderboard">
-                        {leaderboard.map((entry, i) => (
-                            <li key={entry._id} className="leaderboard__item">
-                                <span>#{i + 1}</span>
-                                <span>{entry.username}</span>
-                                <span className="font-bold">
-                                    {Math.round(entry.highestScore)} pts
-                                </span>
-                            </li>
-                        ))}
+                        {leaderboard.map((entry, i) => {
+                            const isCurrent =
+                                user && entry.username === user.username;
+                            return (
+                                <li
+                                    key={entry._id}
+                                    className={`leaderboard_item ${
+                                        isCurrent ? "current" : ""
+                                    }`}
+                                >
+                                    <span>#{i + 1}</span>
+                                    <span>{entry.username}</span>
+                                    <span>
+                                        {Math.round(entry.highestScore)} pts
+                                    </span>
+                                </li>
+                            );
+                        })}
                     </ul>
                 )}
             </div>
