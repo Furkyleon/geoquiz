@@ -48,6 +48,10 @@ body {
     max-width: 500px;
 }
 
+.container.quiz-result {
+    max-width: 400px;
+}
+
 .container.register-page,
 .container.login-page {
     max-width: 400px;
@@ -330,4 +334,28 @@ body {
     max-width: none;
     margin: 1rem auto 0;
     text-align: center;
+}
+
+.quiz-attempt-title {
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text);
+}
+
+.quiz-history .quiz-score {
+    color: var(--color-primary-light);
+}
+
+.quiz-result-card {
+    text-align: center;
+}
+
+.quiz-result .quiz-score {
+    font-size: 2rem;
+    margin: 0.5rem 0 1rem;
+    color: var(--color-primary-light);
+}
+
+.quiz-result-card .button {
+    margin-top: 1rem;
 }

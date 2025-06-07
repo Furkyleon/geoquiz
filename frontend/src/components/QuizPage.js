@@ -58,8 +58,12 @@ export default function QuizPage() {
                 body: JSON.stringify({ responses: answers }),
             });
             const data = await res.json();
-            alert(`Quiz submitted! Score: ${Math.round(data.totalScore)}`);
-            navigate("/quiz-history");
+            navigate("/quiz-result", {
+                state: {
+                    totalScore: data.totalScore,
+                    answers,
+                },
+            });
         } catch (err) {
             console.error("Submit failed", err);
         }

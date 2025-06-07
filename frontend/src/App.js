@@ -10,6 +10,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import QuizPage from "./components/QuizPage";
 import QuizHistory from "./components/QuizHistory";
+import QuizResult from "./components/QuizResult";
 
 function App() {
     const storedToken = localStorage.getItem("quizAppToken");
@@ -45,6 +46,7 @@ function App() {
                         <Route path="/profile" element={<Profile />} />
                         <Route path="/quiz" element={<QuizPage />} />
                         <Route path="/quiz-history" element={<QuizHistory />} />
+                        <Route path="/quiz-result" element={<QuizResult />} />
                     </Routes>
                 </div>
             </UserContext.Provider>

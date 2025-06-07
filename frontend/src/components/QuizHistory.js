@@ -25,6 +25,8 @@ export default function QuizHistory() {
             });
     }, [user, token, navigate]);
 
+    const formatTime = (seconds) => `${seconds.toFixed(1)}s`;
+
     if (!user) return null;
 
     return (
@@ -34,26 +36,48 @@ export default function QuizHistory() {
                 {history.length === 0 ? (
                     <p className="no-quiz">No quiz attempts yet.</p>
                 ) : (
-                    history.map((attempt, idx) => (
-                        <div
-                            key={idx}
-                            className="card"
-                            style={{ marginTop: "1rem" }}
-                        >
-                            <p>
-                                <strong>Date:</strong>{" "}
-                                {new Date(attempt.date).toLocaleString()}
-                            </p>
-                            <p>
-                                <strong>Score:</strong>{" "}
-                                {Math.round(attempt.totalScore)}
-                            </p>
-                            <p>
-                                <strong>Questions:</strong>{" "}
-                                {attempt.questions.length}
-                            </p>
-                        </div>
-                    ))
+                    history.map((attempt, idx) => {
+                        const totalQuestions = attempt.questions.length;
+                        const correctCount = attempt.questions.filter(
+                            (q) => q.grade === 1
+                        ).length;
+                        const wrongCount = totalQuestions - correctCount;
+                        const totalTimeSec = attempt.questions.reduce(
+                            (sum, q) => sum + q.time,
+                            0
+                        );
+
+                        return (
+                            <div
+                                key={idx}
+                                className="card"
+                                style={{ marginTop: "1rem" }}
+                            >
+                                <h3 className="quiz-attempt-title">
+                                    Quiz {idx + 1}:{" "}
+                                    <span className="quiz-score">
+                                        {Math.round(attempt.totalScore)} points
+                                    </span>
+                                </h3>
+                                <p>
+                                    <strong>Date:</strong>{" "}
+                                    {new Date(attempt.date).toLocaleString()}
+                                </p>
+                                <p>
+                                    <strong>Correct:</strong> {correctCount} /{" "}
+                                    {totalQuestions}
+                                </p>
+                                <p>
+                                    <strong>Wrong:</strong> {wrongCount} /{" "}
+                                    {totalQuestions}
+                                </p>
+                                <p>
+                                    <strong>Time Taken:</strong>{" "}
+                                    {formatTime(totalTimeSec)}
+                                </p>
+                            </div>
+                        );
+                    })
                 )}
             </div>
         </div>
